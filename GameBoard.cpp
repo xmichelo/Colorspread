@@ -2,29 +2,36 @@
 /// \date 2013-01-05
 /// \author Xavier Michelon
 ///
-/// \brief Implementation of OpenGL Widget
+/// \brief Implementation of game board class
 
 
 #include "stdafx.h"
-#include "GlWidget.h"
 #include "GameBoard.h"
 #include "Constants.h"
 
 
 //**********************************************************************************************************************
-/// \param[in] parent The parent widget
+/// \return The only allowed instance of the class
 //**********************************************************************************************************************
-GlWidget::GlWidget(QWidget* parent)
-   : QGLWidget(QGLFormat(QGL::AlphaChannel | QGL::DoubleBuffer | QGL::Rgba), parent)
+GameBoard& GameBoard::instance()
 {
-   this->setAutoBufferSwap(false);
+   static GameBoard board;
+   return board;
+}
+
+//**********************************************************************************************************************
+/// \param[in] size The size of the game board
+//**********************************************************************************************************************
+GameBoard::GameBoard()
+{
+   this->reset();
 }
 
 
 //**********************************************************************************************************************
 // 
 //**********************************************************************************************************************
-GlWidget::~GlWidget()
+GameBoard::~GameBoard()
 {
 
 }
@@ -33,46 +40,23 @@ GlWidget::~GlWidget()
 //**********************************************************************************************************************
 // 
 //**********************************************************************************************************************
-void GlWidget::initializeGL()
+void GameBoard::reset()
 {
-   qDebug("InitializeGL()");
-   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+   cells_.clear();
+   cells_.reserve(kBoardSize * kBoardSize);
+   for (qint32 i = 0; i < kBoardSize * kBoardSize; ++i)
+      cells_.push_back(EColor(qrand() % eColorCount));
 }
 
 
 //**********************************************************************************************************************
-// 
+/// \param[in] row The zero-based index of the column
+/// \param[in] column The zero-based index of the row
+/// \return The column of the cell at the given row and column
 //**********************************************************************************************************************
-void GlWidget::paintGL()
+EColor GameBoard::getColorAt(qint32 row, qint32 column)
 {
-   GameBoard& gameBoard(GameBoard::instance());
-   glClear(GL_COLOR_BUFFER_BIT);
-   glLoadIdentity();
-   glBegin(GL_QUADS);
-   for (int i = 0; i < kBoardSize; ++i)
-      for (int j = 0; j < kBoardSize; ++j)
-      {
-         QColor color(kColors[gameBoard.getColorAt(i, j)]);
-         glColor3f(color.redF(), color.greenF(), color.blueF());
-         glVertex2i(i       * kCellRenderSize, j       * kCellRenderSize);
-         glVertex2i((i + 1) * kCellRenderSize, j       * kCellRenderSize);
-         glVertex2i((i + 1) * kCellRenderSize, (j + 1) * kCellRenderSize);
-         glVertex2i(i       * kCellRenderSize, (j + 1) * kCellRenderSize);
-      }
-   glEnd();
-   this->swapBuffers();
-}
-
-
-//**********************************************************************************************************************
-// 
-//**********************************************************************************************************************
-void GlWidget::resizeGL(int width, int height)
-{
-   qDebug("resizeGL()");
-   glViewport(0, 0, width, height);
-   glMatrixMode(GL_PROJECTION);
-   glLoadIdentity();
-   glOrtho(0, width, height, 0, -1.0, 1.0);
-   glMatrixMode(GL_MODELVIEW);
+   Q_ASSERT(row < kBoardSize);
+   Q_ASSERT(column < kBoardSize);
+   return cells_[kBoardSize * row + column];
 }

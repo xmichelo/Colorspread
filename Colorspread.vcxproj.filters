@@ -31,6 +31,8 @@
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="GlWidget.cpp" />
+    <ClCompile Include="GameBoard.cpp" />
+    <ClCompile Include="Constants.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_MainWindow.h">
@@ -38,11 +40,13 @@
     </ClInclude>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="GlWidget.h" />
+    <ClInclude Include="Constants.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="MainWindow.ui" />
     <CustomBuild Include="MainWindow.h" />
     <CustomBuild Include="MainWindow.qrc" />
+    <CustomBuild Include="GameBoard.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Colorspread.rc" />
