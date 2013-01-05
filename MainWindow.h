@@ -2,7 +2,7 @@
 /// \date 2013-01-05
 /// \author Xavier Michelon
 ///
-/// \brief Implementation of main window class
+/// \brief Declaration of main window class
 
 
 #ifndef COLORSPREAD__MAINWINDOW__H
