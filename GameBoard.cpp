@@ -8,6 +8,11 @@
 #include "stdafx.h"
 #include "GameBoard.h"
 #include "Constants.h"
+#include <deque>
+#include <utility>
+
+
+using namespace std;
 
 
 //**********************************************************************************************************************
@@ -54,9 +59,60 @@ void GameBoard::reset()
 /// \param[in] column The zero-based index of the row
 /// \return The column of the cell at the given row and column
 //**********************************************************************************************************************
-EColor GameBoard::getColorAt(qint32 row, qint32 column)
+EColor GameBoard::getColorAt(qint32 row, qint32 column) const
 {
-   Q_ASSERT(row < kBoardSize);
-   Q_ASSERT(column < kBoardSize);
+   Q_ASSERT((row >= 0) && (row < kBoardSize));
+   Q_ASSERT((column >= 0) && (column < kBoardSize));
    return cells_[kBoardSize * row + column];
+}
+
+
+//**********************************************************************************************************************
+/// \param[in] color The color to play
+//**********************************************************************************************************************
+void GameBoard::playColor(EColor color)
+{
+   EColor const oldColor(this->getColorAt(0,0));
+   if (oldColor == color) return;
+   deque<pair<qint32, qint32>> queue;
+   setColorAt(0, 0, color);
+   queue.push_back(make_pair(0,0));
+   while(!queue.empty())
+   {
+      pair<qint32, qint32> pair(queue.front());
+      queue.pop_front();
+      if ((pair.first > 0) && (oldColor == getColorAt(pair.first - 1, pair.second)))
+      {
+         setColorAt(pair.first - 1, pair.second, color);
+         queue.push_back(make_pair(pair.first - 1, pair.second));
+      }
+      if ((pair.first < kBoardSize - 1) && (oldColor == getColorAt(pair.first + 1, pair.second)))
+      {
+         setColorAt(pair.first + 1, pair.second, color);
+         queue.push_back(make_pair(pair.first + 1, pair.second));
+      }
+      if ((pair.second > 0) && (oldColor == getColorAt(pair.first, pair.second - 1)))
+      {
+         setColorAt(pair.first, pair.second - 1, color);
+         queue.push_back(make_pair(pair.first, pair.second - 1));
+      }
+      if ((pair.second < kBoardSize - 1) && (oldColor == getColorAt(pair.first, pair.second + 1)))
+      {
+         setColorAt(pair.first, pair.second + 1, color);
+         queue.push_back(make_pair(pair.first, pair.second + 1));
+      }
+   }
+}
+
+
+//**********************************************************************************************************************
+/// \param[in] row The row of the cell
+/// \param[in] column The column of the cell
+/// \param[in] color The new color of the cell
+//**********************************************************************************************************************
+void GameBoard::setColorAt(qint32 row, qint32 column, EColor color)
+{
+   Q_ASSERT((row >= 0) && (row < kBoardSize));
+   Q_ASSERT((column >= 0) && (column < kBoardSize));
+   cells_[kBoardSize * row + column] = color;
 }

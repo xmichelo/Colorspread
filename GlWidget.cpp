@@ -45,14 +45,14 @@ void GlWidget::initializeGL()
 //**********************************************************************************************************************
 void GlWidget::paintGL()
 {
-   GameBoard& gameBoard(GameBoard::instance());
+   GameBoard const& gameBoard(GameBoard::instance());
    glClear(GL_COLOR_BUFFER_BIT);
    glLoadIdentity();
    glBegin(GL_QUADS);
    for (int i = 0; i < kBoardSize; ++i)
       for (int j = 0; j < kBoardSize; ++j)
       {
-         QColor color(kColors[gameBoard.getColorAt(i, j)]);
+         QColor const color(kColors[gameBoard.getColorAt(i, j)]);
          glColor3f(color.redF(), color.greenF(), color.blueF());
          glVertex2i(i       * kCellRenderSize, j       * kCellRenderSize);
          glVertex2i((i + 1) * kCellRenderSize, j       * kCellRenderSize);

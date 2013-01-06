@@ -19,11 +19,17 @@
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-public:
+public: // member functions
    MainWindow(QWidget *parent = 0, Qt::WFlags flags = 0); ///< Default constructor
    ~MainWindow(); ///< Destructor
 
-private:
+private: // member functions
+   void setupColorButtons(); ///< Setup the color buttons
+
+private slots:
+   void onColorButton(); ///< Callback for the color buttons
+
+private: // data members
    Ui::MainWindowClass ui_; ///< The GUI for the window
 };
 

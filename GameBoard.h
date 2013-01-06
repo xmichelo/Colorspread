@@ -35,11 +35,13 @@ public: // member functions
    static GameBoard& instance();
    ~GameBoard(); ///< Destructor
    void reset(); ///< Reset the game board
-   EColor getColorAt(qint32 row, qint32 column); ///< Retrieve the color at the given index
+   EColor getColorAt(qint32 row, qint32 column) const; ///< Retrieve the color at the given index
+   void playColor(EColor color); /// Play the next turn with the given color
 
 private: // member functions
    GameBoard(GameBoard const&); ///< Disabled copy-constructor
    GameBoard& operator=(GameBoard const&); ///< Disabled assignment operator
+   void setColorAt(qint32 row, qint32 column, EColor color); ///< Set the color of a cell
 
 private: // data members
    GameBoard();
