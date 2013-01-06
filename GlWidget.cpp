@@ -53,10 +53,10 @@ void GlWidget::paintGL()
       {
          QColor const color(kColors[gameBoard.getColorAt(i, j)]);
          glColor3f(color.redF(), color.greenF(), color.blueF());
-         glVertex2i(i       * kCellRenderSize, j       * kCellRenderSize);
-         glVertex2i((i + 1) * kCellRenderSize, j       * kCellRenderSize);
-         glVertex2i((i + 1) * kCellRenderSize, (j + 1) * kCellRenderSize);
-         glVertex2i(i       * kCellRenderSize, (j + 1) * kCellRenderSize);
+         glVertex2i(i      , j      );
+         glVertex2i((i + 1), j      );
+         glVertex2i((i + 1), (j + 1));
+         glVertex2i(i      , (j + 1));
       }
    glEnd();
    this->swapBuffers();
@@ -71,6 +71,6 @@ void GlWidget::resizeGL(int width, int height)
    glViewport(0, 0, width, height);
    glMatrixMode(GL_PROJECTION);
    glLoadIdentity();
-   glOrtho(0, width, height, 0, -1.0, 1.0);
+   glOrtho(0, kBoardSize, kBoardSize, 0, -1.0, 1.0);
    glMatrixMode(GL_MODELVIEW);
 }

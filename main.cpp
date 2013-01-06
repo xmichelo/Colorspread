@@ -18,7 +18,6 @@
 //**********************************************************************************************************************
 int main(int argc, char *argv[])
 {
-   qsrand(uint(QDateTime::currentDateTime().toTime_t()));
     QApplication a(argc, argv);
     MainWindow w;
     w.show();

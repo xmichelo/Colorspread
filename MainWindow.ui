@@ -338,6 +338,8 @@
      <string>&amp;File</string>
     </property>
     <addaction name="actionNewGame"/>
+    <addaction name="actionRestartGame"/>
+    <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
    <addaction name="menu_File"/>
@@ -353,6 +355,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionRestartGame">
+   <property name="text">
+    <string>&amp;Restart Game</string>
+   </property>
+   <property name="toolTip">
+    <string>Restart the current game</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
    </property>
   </action>
  </widget>
@@ -497,9 +510,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionRestartGame</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>onRestartGame()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>277</x>
+     <y>215</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>onColorButton()</slot>
   <slot>onNewGame()</slot>
+  <slot>onRestartGame()</slot>
  </slots>
 </ui>

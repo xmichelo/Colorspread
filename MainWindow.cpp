@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
    connect(board, SIGNAL(turnPlayed()), this, SLOT(onTurnPlayed()));
    connect(board, SIGNAL(gameWon()), this, SLOT(onGameWon()));
    connect(board, SIGNAL(gameLost()), this, SLOT(onGameLost()));
-   board->reset();
+   board->newGame();
 }
 
 
@@ -119,6 +119,15 @@ void MainWindow::onGameLost()
 //**********************************************************************************************************************
 void MainWindow::onNewGame()
 {
-   GameBoard::instance().reset();
+   GameBoard::instance().newGame();
+}
+
+
+//**********************************************************************************************************************
+// 
+//**********************************************************************************************************************
+void MainWindow::onRestartGame()
+{
+   GameBoard::instance().restartGame();
 }
 

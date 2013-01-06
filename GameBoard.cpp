@@ -28,6 +28,7 @@ GameBoard& GameBoard::instance()
 /// \param[in] size The size of the game board
 //**********************************************************************************************************************
 GameBoard::GameBoard()
+   : seed_(0)
 {
    this->reset();
 }
@@ -39,6 +40,28 @@ GameBoard::GameBoard()
 GameBoard::~GameBoard()
 {
 
+}
+
+
+//**********************************************************************************************************************
+// 
+//**********************************************************************************************************************
+void GameBoard::newGame()
+{
+   seed_ = QDateTime::currentDateTime().toTime_t();
+   qsrand(seed_);
+   this->reset();
+}
+
+
+//**********************************************************************************************************************
+// 
+//**********************************************************************************************************************
+void GameBoard::restartGame()
+{
+   ///< We reinitialize the random generator to the same seed, so what have the same game as before
+   qsrand(seed_); 
+   this->reset();
 }
 
 
@@ -159,3 +182,4 @@ void GameBoard::checkForGameEnd()
       emit gameLost();
    }
 }
+
