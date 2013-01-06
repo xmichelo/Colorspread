@@ -48,7 +48,7 @@ GameBoard::~GameBoard()
 //**********************************************************************************************************************
 void GameBoard::newGame()
 {
-   seed_ = QDateTime::currentDateTime().toTime_t();
+   seed_ = quint32(QDateTime::currentMSecsSinceEpoch());
    qsrand(seed_);
    this->reset();
 }
