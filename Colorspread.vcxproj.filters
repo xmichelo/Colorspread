@@ -33,6 +33,12 @@
     <ClCompile Include="GlWidget.cpp" />
     <ClCompile Include="GameBoard.cpp" />
     <ClCompile Include="Constants.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_GameBoard.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_GameBoard.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_MainWindow.h">

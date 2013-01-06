@@ -20,6 +20,12 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 {
    ui_.setupUi(this);
    this->setupColorButtons();
+   GameBoard* board(&GameBoard::instance());
+   connect(board, SIGNAL(gameStarted()), this, SLOT(onGameStarted()));
+   connect(board, SIGNAL(turnPlayed()), this, SLOT(onTurnPlayed()));
+   connect(board, SIGNAL(gameWon()), this, SLOT(onGameWon()));
+   connect(board, SIGNAL(gameLost()), this, SLOT(onGameLost()));
+   board->reset();
 }
 
 
@@ -64,5 +70,45 @@ void MainWindow::onColorButton()
          ui_.glWidget->updateGL();
          break; 
       }
+}
+
+
+//**********************************************************************************************************************
+// 
+//**********************************************************************************************************************
+void MainWindow::onGameStarted()
+{
+   qDebug("onGameStarted()");
+   ui_.gameStatusLabel->setText("");
+   ui_.turnsLeftCounterLabel->setText(QString::number(GameBoard::instance().getTurnsLeft()));
+}
+
+
+//**********************************************************************************************************************
+// 
+//**********************************************************************************************************************
+void MainWindow::onTurnPlayed()
+{
+   ui_.turnsLeftCounterLabel->setText(QString::number(GameBoard::instance().getTurnsLeft()));
+}
+
+
+//**********************************************************************************************************************
+// 
+//**********************************************************************************************************************
+void MainWindow::onGameWon()
+{
+   ui_.gameStatusLabel->setStyleSheet("color: #61bc46;");
+   ui_.gameStatusLabel->setText("You Win!");
+}
+
+
+//**********************************************************************************************************************
+// 
+//**********************************************************************************************************************
+void MainWindow::onGameLost()
+{
+   ui_.gameStatusLabel->setStyleSheet("color: #cd2c24;");
+   ui_.gameStatusLabel->setText("Game Over!");
 }
 

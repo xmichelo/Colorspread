@@ -47,10 +47,13 @@ GameBoard::~GameBoard()
 //**********************************************************************************************************************
 void GameBoard::reset()
 {
+   turnsLeft_ = kTurnCount;
    cells_.clear();
    cells_.reserve(kBoardSize * kBoardSize);
    for (qint32 i = 0; i < kBoardSize * kBoardSize; ++i)
       cells_.push_back(EColor(qrand() % eColorCount));
+   isGameFinished_ = false;
+   emit gameStarted();
 }
 
 
@@ -72,6 +75,7 @@ EColor GameBoard::getColorAt(qint32 row, qint32 column) const
 //**********************************************************************************************************************
 void GameBoard::playColor(EColor color)
 {
+   if (isGameFinished_) return;
    EColor const oldColor(this->getColorAt(0,0));
    if (oldColor == color) return;
    deque<pair<qint32, qint32>> queue;
@@ -102,6 +106,9 @@ void GameBoard::playColor(EColor color)
          queue.push_back(make_pair(pair.first, pair.second + 1));
       }
    }
+   --turnsLeft_;
+   emit turnPlayed();
+   this->checkForGameEnd();
 }
 
 
@@ -115,4 +122,40 @@ void GameBoard::setColorAt(qint32 row, qint32 column, EColor color)
    Q_ASSERT((row >= 0) && (row < kBoardSize));
    Q_ASSERT((column >= 0) && (column < kBoardSize));
    cells_[kBoardSize * row + column] = color;
+}
+
+
+//**********************************************************************************************************************
+/// \return the number of turns left in the game
+//**********************************************************************************************************************
+qint32 GameBoard::getTurnsLeft() const
+{
+   return turnsLeft_;
+}
+
+
+//**********************************************************************************************************************
+// 
+//**********************************************************************************************************************
+void GameBoard::checkForGameEnd()
+{
+   EColor const color(cells_[0]);
+   bool won(true);
+   for (int i = 1; i < kBoardSize * kBoardSize; ++i)
+      if (color != cells_[i])
+      {
+         won = false;
+         break;
+      }
+   if (won)
+   {
+      isGameFinished_ = true;
+      emit gameWon();
+      return;
+   }
+   if (0 == turnsLeft_)
+   {
+      isGameFinished_ = true;
+      emit gameLost();
+   }
 }

@@ -28,7 +28,10 @@ private: // member functions
 
 private slots:
    void onColorButton(); ///< Callback for the color buttons
-
+   void onGameStarted(); ///< Callback for the game started signal
+   void onTurnPlayed(); ///< Callback for the turn played signal
+   void onGameWon(); ///< Callback for the game won signal
+   void onGameLost(); ///< Callback for the game lost signal
 private: // data members
    Ui::MainWindowClass ui_; ///< The GUI for the window
 };

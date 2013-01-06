@@ -29,23 +29,34 @@ enum EColor {
 //**********************************************************************************************************************
 /// \brief Game board class
 //**********************************************************************************************************************
-class GameBoard
+class GameBoard: public QObject
 {
+   Q_OBJECT
 public: // member functions
    static GameBoard& instance();
    ~GameBoard(); ///< Destructor
    void reset(); ///< Reset the game board
    EColor getColorAt(qint32 row, qint32 column) const; ///< Retrieve the color at the given index
    void playColor(EColor color); /// Play the next turn with the given color
+   qint32 getTurnsLeft() const; ///< Return the number of turns left in the game
 
 private: // member functions
    GameBoard(GameBoard const&); ///< Disabled copy-constructor
    GameBoard& operator=(GameBoard const&); ///< Disabled assignment operator
    void setColorAt(qint32 row, qint32 column, EColor color); ///< Set the color of a cell
+   void checkForGameEnd(); ///< Check if the game has ended and emit the appropriate signal (gameWon() or gameLost())
 
 private: // data members
    GameBoard();
-   std::vector<EColor> cells_;
+   std::vector<EColor> cells_; ///< The game board cells
+   qint32 turnsLeft_; ///< The number of turns left in the game
+   bool isGameFinished_; ///< Is the game finished
+
+signals:
+   void gameStarted();
+   void turnPlayed();
+   void gameWon();
+   void gameLost();
 };
 
 

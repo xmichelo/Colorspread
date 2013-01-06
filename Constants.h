@@ -10,6 +10,7 @@
 
 
 extern qint32 kBoardSize; ///< The size of the game board (number of cells on each row and column)
+extern qint32 kTurnCount; ///< The number of turns allowed in a game
 extern QColor kColors[6]; ///< The list of colors
 extern qint32 kCellRenderSize; ///< The rendering size of cells
 
