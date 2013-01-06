@@ -32,6 +32,8 @@ private slots:
    void onTurnPlayed(); ///< Callback for the turn played signal
    void onGameWon(); ///< Callback for the game won signal
    void onGameLost(); ///< Callback for the game lost signal
+   void onNewGame(); ///< Callback for the new game action
+
 private: // data members
    Ui::MainWindowClass ui_; ///< The GUI for the window
 };

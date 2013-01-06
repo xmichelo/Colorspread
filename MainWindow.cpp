@@ -67,7 +67,6 @@ void MainWindow::onColorButton()
       if (button == buttons[i]) 
       { 
          GameBoard::instance().playColor(EColor(i)); 
-         ui_.glWidget->updateGL();
          break; 
       }
 }
@@ -81,6 +80,7 @@ void MainWindow::onGameStarted()
    qDebug("onGameStarted()");
    ui_.gameStatusLabel->setText("");
    ui_.turnsLeftCounterLabel->setText(QString::number(GameBoard::instance().getTurnsLeft()));
+   ui_.glWidget->updateGL();
 }
 
 
@@ -90,6 +90,7 @@ void MainWindow::onGameStarted()
 void MainWindow::onTurnPlayed()
 {
    ui_.turnsLeftCounterLabel->setText(QString::number(GameBoard::instance().getTurnsLeft()));
+   ui_.glWidget->updateGL();
 }
 
 
@@ -110,5 +111,14 @@ void MainWindow::onGameLost()
 {
    ui_.gameStatusLabel->setStyleSheet("color: #cd2c24;");
    ui_.gameStatusLabel->setText("Game Over!");
+}
+
+
+//**********************************************************************************************************************
+// 
+//**********************************************************************************************************************
+void MainWindow::onNewGame()
+{
+   GameBoard::instance().reset();
 }
 
