@@ -35,6 +35,7 @@ class GameBoard: public QObject
 public: // member functions
    static GameBoard& instance();
    ~GameBoard(); ///< Destructor
+   void newGame(quint32 seed); ///< Start a new game with the specified seed
    void newGame(); ///< Start a new (random) game
    void restartGame(); ///< Restart the current game
    EColor getColorAt(qint32 row, qint32 column) const; ///< Retrieve the color at the given index

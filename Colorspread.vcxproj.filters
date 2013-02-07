@@ -16,6 +16,11 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneratedFiles\Debug\moc_MainWindow.cpp">
@@ -23,9 +28,6 @@
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_MainWindow.cpp">
       <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qrc_MainWindow.cpp">
-      <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp" />
@@ -39,6 +41,13 @@
     <ClCompile Include="GeneratedFiles\Release\moc_GameBoard.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_SeedDialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_SeedDialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="SeedDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_MainWindow.h">
@@ -47,12 +56,16 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="GlWidget.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="GeneratedFiles\ui_SeedDialog.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="MainWindow.ui" />
     <CustomBuild Include="MainWindow.h" />
-    <CustomBuild Include="MainWindow.qrc" />
     <CustomBuild Include="GameBoard.h" />
+    <CustomBuild Include="SeedDialog.ui" />
+    <CustomBuild Include="SeedDialog.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Colorspread.rc" />

@@ -338,6 +338,7 @@
      <string>&amp;File</string>
     </property>
     <addaction name="actionNewRandomGame"/>
+    <addaction name="actionNewGameWithSeed"/>
     <addaction name="actionRestartGame"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
@@ -370,6 +371,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionNewGameWithSeed">
+   <property name="text">
+    <string>New Game With Seed</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
  </widget>
@@ -530,10 +539,27 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionNewGameWithSeed</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>onNewGameWithSeed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>277</x>
+     <y>225</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>onColorButton()</slot>
   <slot>onNewRandomGame()</slot>
   <slot>onRestartGame()</slot>
+  <slot>onNewGameWithSeed()</slot>
  </slots>
 </ui>

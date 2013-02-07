@@ -6,6 +6,7 @@
 
 
 #include "stdafx.h"
+#include "SeedDialog.h"
 #include "MainWindow.h"
 #include "GameBoard.h"
 #include "Constants.h"
@@ -91,7 +92,7 @@ void MainWindow::onGameStarted()
 {
    qDebug("onGameStarted()");
    ui_.gameStatusLabel->setText("");
-   statusLabel_->setText(QString("Game Seed: %1").arg(GameBoard::instance().getSeed(), 2, 16, QChar('0')));
+   statusLabel_->setText(QString("Game Seed: %1").arg(GameBoard::instance().getSeed(), 8, 16, QChar('0')));
    ui_.turnsLeftCounterLabel->setText(QString::number(GameBoard::instance().getTurnsLeft()));
    ui_.glWidget->updateGL();
 }
@@ -142,5 +143,17 @@ void MainWindow::onNewRandomGame()
 void MainWindow::onRestartGame()
 {
    GameBoard::instance().restartGame();
+}
+
+
+//**********************************************************************************************************************
+// 
+//**********************************************************************************************************************
+void MainWindow::onNewGameWithSeed()
+{
+   SeedDialog dlg;
+   if (QDialog::Accepted != dlg.exec())
+      return;
+   GameBoard::instance().newGame(dlg.getSeed());
 }
 

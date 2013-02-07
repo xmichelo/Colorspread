@@ -33,7 +33,8 @@ private slots:
    void onTurnPlayed(); ///< Callback for the turn played signal
    void onGameWon(); ///< Callback for the game won signal
    void onGameLost(); ///< Callback for the game lost signal
-   void onNewRandomGame(); ///< Callback for the new game action
+   void onNewRandomGame(); ///< Callback for the new random game action
+   void onNewGameWithSeed(); ///< Callback for the 'New Game With Seed' action
    void onRestartGame(); ///< Callback for the restart game action
 
 private: // data members
