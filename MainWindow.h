@@ -25,6 +25,7 @@ public: // member functions
 
 private: // member functions
    void setupColorButtons(); ///< Setup the color buttons
+   void setupStatusBar(); /// Setup the status bar
 
 private slots:
    void onColorButton(); ///< Callback for the color buttons
@@ -32,11 +33,12 @@ private slots:
    void onTurnPlayed(); ///< Callback for the turn played signal
    void onGameWon(); ///< Callback for the game won signal
    void onGameLost(); ///< Callback for the game lost signal
-   void onNewGame(); ///< Callback for the new game action
+   void onNewRandomGame(); ///< Callback for the new game action
    void onRestartGame(); ///< Callback for the restart game action
 
 private: // data members
    Ui::MainWindowClass ui_; ///< The GUI for the window
+   QLabel* statusLabel_; ///< The permanent label in the status bar
 };
 
 

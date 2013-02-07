@@ -40,6 +40,7 @@ public: // member functions
    EColor getColorAt(qint32 row, qint32 column) const; ///< Retrieve the color at the given index
    void playColor(EColor color); /// Play the next turn with the given color
    qint32 getTurnsLeft() const; ///< Return the number of turns left in the game
+   quint32 getSeed() const; ///< Return the seed of the game
 
 private: // member functions
    GameBoard(GameBoard const&); ///< Disabled copy-constructor
@@ -54,6 +55,7 @@ private: // data members
    qint32 turnsLeft_; ///< The number of turns left in the game
    bool isGameFinished_; ///< Is the game finished
    quint32 seed_; ///< The seed used to get the random board
+
 signals:
    void gameStarted();
    void turnPlayed();

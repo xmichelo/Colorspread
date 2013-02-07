@@ -17,9 +17,11 @@
 //**********************************************************************************************************************
 MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     : QMainWindow(parent, flags)
+    , statusLabel_(00)
 {
    ui_.setupUi(this);
    this->setupColorButtons();
+   this->setupStatusBar();
    GameBoard* board(&GameBoard::instance());
    connect(board, SIGNAL(gameStarted()), this, SLOT(onGameStarted()));
    connect(board, SIGNAL(turnPlayed()), this, SLOT(onTurnPlayed()));
@@ -57,6 +59,16 @@ void MainWindow::setupColorButtons()
 //**********************************************************************************************************************
 // 
 //**********************************************************************************************************************
+void MainWindow::setupStatusBar()
+{
+   statusLabel_ = new QLabel("", ui_.statusBar);
+   ui_.statusBar->addPermanentWidget(statusLabel_);
+}
+
+
+//**********************************************************************************************************************
+// 
+//**********************************************************************************************************************
 void MainWindow::onColorButton()
 {
    QPushButton* button(static_cast<QPushButton*>(this->sender()));
@@ -79,6 +91,7 @@ void MainWindow::onGameStarted()
 {
    qDebug("onGameStarted()");
    ui_.gameStatusLabel->setText("");
+   statusLabel_->setText(QString("Game Seed: %1").arg(GameBoard::instance().getSeed(), 2, 16, QChar('0')));
    ui_.turnsLeftCounterLabel->setText(QString::number(GameBoard::instance().getTurnsLeft()));
    ui_.glWidget->updateGL();
 }
@@ -117,7 +130,7 @@ void MainWindow::onGameLost()
 //**********************************************************************************************************************
 // 
 //**********************************************************************************************************************
-void MainWindow::onNewGame()
+void MainWindow::onNewRandomGame()
 {
    GameBoard::instance().newGame();
 }

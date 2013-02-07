@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>555</width>
-    <height>431</height>
+    <height>451</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -337,21 +337,25 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
-    <addaction name="actionNewGame"/>
+    <addaction name="actionNewRandomGame"/>
     <addaction name="actionRestartGame"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
    <addaction name="menu_File"/>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionQuit">
    <property name="text">
     <string>&amp;Quit</string>
    </property>
   </action>
-  <action name="actionNewGame">
+  <action name="actionNewRandomGame">
    <property name="text">
-    <string>&amp;New Game</string>
+    <string>&amp;New Random Game</string>
+   </property>
+   <property name="toolTip">
+    <string>New Random Game</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
@@ -495,10 +499,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionNewGame</sender>
+   <sender>actionNewRandomGame</sender>
    <signal>triggered()</signal>
    <receiver>MainWindowClass</receiver>
-   <slot>onNewGame()</slot>
+   <slot>onNewRandomGame()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -529,7 +533,7 @@
  </connections>
  <slots>
   <slot>onColorButton()</slot>
-  <slot>onNewGame()</slot>
+  <slot>onNewRandomGame()</slot>
   <slot>onRestartGame()</slot>
  </slots>
 </ui>
