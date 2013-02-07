@@ -36,6 +36,7 @@ private slots:
    void onNewRandomGame(); ///< Callback for the new random game action
    void onNewGameWithSeed(); ///< Callback for the 'New Game With Seed' action
    void onRestartGame(); ///< Callback for the restart game action
+   void onActionCopyGameSeed(); ///< Callback for the 'Copy Game Seed' action
 
 private: // data members
    Ui::MainWindowClass ui_; ///< The GUI for the window

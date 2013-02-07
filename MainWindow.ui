@@ -343,7 +343,14 @@
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
+   <widget class="QMenu" name="menu_Edit">
+    <property name="title">
+     <string>&amp;Edit</string>
+    </property>
+    <addaction name="actionCopyGameSeed"/>
+   </widget>
    <addaction name="menu_File"/>
+   <addaction name="menu_Edit"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionQuit">
@@ -381,6 +388,14 @@
     <string>Ctrl+S</string>
    </property>
   </action>
+  <action name="actionCopyGameSeed">
+   <property name="text">
+    <string>Copy Game Seed</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -391,9 +406,7 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="MainWindow.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>actionQuit</sender>
@@ -555,11 +568,28 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionCopyGameSeed</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>onActionCopyGameSeed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>277</x>
+     <y>225</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>onColorButton()</slot>
   <slot>onNewRandomGame()</slot>
   <slot>onRestartGame()</slot>
   <slot>onNewGameWithSeed()</slot>
+  <slot>onActionCopyGameSeed()</slot>
  </slots>
 </ui>

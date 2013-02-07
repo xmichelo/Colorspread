@@ -7,6 +7,8 @@
 
 #include "stdafx.h"
 #include "SeedDialog.h"
+#include "GameBoard.h"
+#include "Utils.h"
 
 
 //**********************************************************************************************************************
@@ -19,6 +21,7 @@ SeedDialog::SeedDialog(QWidget* parent)
    validator = new QRegExpValidator(QRegExp("[0-9a-fA-F]{1,8}"), this);
    ui_.seedEdit->setValidator(validator);
    connect(ui_.seedEdit, SIGNAL(textChanged(const QString&)), this, SLOT(onTextChanged(QString const &)));
+   tryReadSeedFromClipboard();
 }
 
 
@@ -47,10 +50,28 @@ void SeedDialog::onTextChanged(QString const& text)
 //**********************************************************************************************************************
 quint32 SeedDialog::getSeed() const
 {
-   QString input(ui_.seedEdit->text());
-   int pos(0);
-   if (QValidator::Acceptable != validator->validate(input, pos))
-      return 0;
-   return input.toUInt(nullptr, 16);
+   quint32 result;
+   hexStringToUint32(ui_.seedEdit->text(), result);
+   return result;
+}
+
+
+//**********************************************************************************************************************
+/// if no valid seed is in the clipboard, the value of the seed text field will be the one of the current game
+//**********************************************************************************************************************
+void SeedDialog::tryReadSeedFromClipboard()
+{
+   QClipboard const* clipboard(QApplication::clipboard());
+   if (clipboard->mimeData()->hasText())
+   {
+      QString str(clipboard->text());
+      quint32 seed;
+      if (hexStringToUint32(str, seed))
+      {
+         ui_.seedEdit->setText(str);
+         return;
+      }
+   }
+   ui_.seedEdit->setText(uint32ToHexString(GameBoard::instance().getSeed()));
 }
 

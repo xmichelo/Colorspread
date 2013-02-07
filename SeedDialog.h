@@ -27,6 +27,7 @@ public: // member functions
 private: // member functions
    SeedDialog(SeedDialog const&); ///< Disabled copy-constructor
    SeedDialog& operator=(SeedDialog const&); ///< Disabled assignment operator
+   void tryReadSeedFromClipboard(); ///< check if the clipboard contains a valid seed value, and if so, set the value of the seed edit to it.
 
 private slots:
    void onTextChanged(QString const& text); ///< Call back for the text changed signal

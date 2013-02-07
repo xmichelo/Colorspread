@@ -8,6 +8,7 @@
 #include "stdafx.h"
 #include "SeedDialog.h"
 #include "MainWindow.h"
+#include "Utils.h"
 #include "GameBoard.h"
 #include "Constants.h"
 
@@ -90,9 +91,8 @@ void MainWindow::onColorButton()
 //**********************************************************************************************************************
 void MainWindow::onGameStarted()
 {
-   qDebug("onGameStarted()");
    ui_.gameStatusLabel->setText("");
-   statusLabel_->setText(QString("Game Seed: %1").arg(GameBoard::instance().getSeed(), 8, 16, QChar('0')));
+   statusLabel_->setText(QString("Game Seed: %1").arg(uint32ToHexString(GameBoard::instance().getSeed())));
    ui_.turnsLeftCounterLabel->setText(QString::number(GameBoard::instance().getTurnsLeft()));
    ui_.glWidget->updateGL();
 }
@@ -155,5 +155,14 @@ void MainWindow::onNewGameWithSeed()
    if (QDialog::Accepted != dlg.exec())
       return;
    GameBoard::instance().newGame(dlg.getSeed());
+}
+
+
+//**********************************************************************************************************************
+// 
+//**********************************************************************************************************************
+void MainWindow::onActionCopyGameSeed()
+{
+  QApplication::clipboard()->setText(uint32ToHexString(GameBoard::instance().getSeed()));
 }
 

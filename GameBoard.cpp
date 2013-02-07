@@ -59,7 +59,10 @@ void GameBoard::newGame(quint32 seed)
 //**********************************************************************************************************************
 void GameBoard::newGame()
 {
-   this->newGame(quint32(QDateTime::currentMSecsSinceEpoch()));
+   // we do not want seed to be sequential so we also randomize it. as qrand() return a 16 bit numbers we concatenate
+   // two values to get a 32 bit pseudo random value.
+   qsrand(quint32(QDateTime::currentMSecsSinceEpoch()));
+   this->newGame(quint32(qrand()) | (quint32(qrand()) << 16));
 }
 
 
