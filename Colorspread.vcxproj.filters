@@ -44,6 +44,7 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="GameBoard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_MainWindow.h">
@@ -56,6 +57,7 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="GameBoard.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="MainWindow.ui" />
