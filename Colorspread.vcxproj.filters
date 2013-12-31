@@ -16,11 +16,6 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
-    <Filter Include="Form Files">
-      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
-      <Extensions>ui</Extensions>
-      <ParseFiles>true</ParseFiles>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneratedFiles\Debug\moc_MainWindow.cpp">
@@ -33,14 +28,7 @@
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="GlWidget.cpp" />
-    <ClCompile Include="GameBoard.cpp" />
     <ClCompile Include="Constants.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_GameBoard.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_GameBoard.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_SeedDialog.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -49,6 +37,13 @@
     </ClCompile>
     <ClCompile Include="SeedDialog.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_GameEngine.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_GameEngine.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_MainWindow.h">
@@ -65,9 +60,9 @@
   <ItemGroup>
     <CustomBuild Include="MainWindow.ui" />
     <CustomBuild Include="MainWindow.h" />
-    <CustomBuild Include="GameBoard.h" />
     <CustomBuild Include="SeedDialog.ui" />
     <CustomBuild Include="SeedDialog.h" />
+    <CustomBuild Include="GameEngine.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Colorspread.rc" />

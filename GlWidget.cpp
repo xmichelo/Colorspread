@@ -7,7 +7,7 @@
 
 #include "stdafx.h"
 #include "GlWidget.h"
-#include "GameBoard.h"
+#include "GameEngine.h"
 #include "Constants.h"
 
 
@@ -44,7 +44,7 @@ void GlWidget::initializeGL()
 //**********************************************************************************************************************
 void GlWidget::paintGL()
 {
-   GameBoard const& gameBoard(GameBoard::instance());
+   GameEngine const& gameBoard(GameEngine::instance());
    glClear(GL_COLOR_BUFFER_BIT);
    glLoadIdentity();
    glBegin(GL_QUADS);

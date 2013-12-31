@@ -9,7 +9,7 @@
 #include "SeedDialog.h"
 #include "MainWindow.h"
 #include "Utils.h"
-#include "GameBoard.h"
+#include "GameEngine.h"
 #include "Constants.h"
 
 
@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
    ui_.setupUi(this);
    this->setupColorButtons();
    this->setupStatusBar();
-   GameBoard* board(&GameBoard::instance());
+   GameEngine* board(&GameEngine::instance());
    connect(board, SIGNAL(gameStarted()), this, SLOT(onGameStarted()));
    connect(board, SIGNAL(turnPlayed()), this, SLOT(onTurnPlayed()));
    connect(board, SIGNAL(gameWon()), this, SLOT(onGameWon()));
@@ -80,7 +80,7 @@ void MainWindow::onColorButton()
    for (int i = 0; i < eColorCount; ++i)
       if (button == buttons[i]) 
       { 
-         GameBoard::instance().playColor(EColor(i)); 
+         GameEngine::instance().playColor(EColor(i)); 
          break; 
       }
 }
@@ -92,8 +92,8 @@ void MainWindow::onColorButton()
 void MainWindow::onGameStarted()
 {
    ui_.gameStatusLabel->setText("");
-   statusLabel_->setText(QString("Game Seed: %1").arg(uint32ToHexString(GameBoard::instance().getSeed())));
-   ui_.turnsLeftCounterLabel->setText(QString::number(GameBoard::instance().getTurnsLeft()));
+   statusLabel_->setText(QString("Game Seed: %1").arg(uint32ToHexString(GameEngine::instance().getSeed())));
+   ui_.turnsLeftCounterLabel->setText(QString::number(GameEngine::instance().getTurnsLeft()));
    ui_.glWidget->updateGL();
 }
 
@@ -103,7 +103,7 @@ void MainWindow::onGameStarted()
 //**********************************************************************************************************************
 void MainWindow::onTurnPlayed()
 {
-   ui_.turnsLeftCounterLabel->setText(QString::number(GameBoard::instance().getTurnsLeft()));
+   ui_.turnsLeftCounterLabel->setText(QString::number(GameEngine::instance().getTurnsLeft()));
    ui_.glWidget->updateGL();
 }
 
@@ -133,7 +133,7 @@ void MainWindow::onGameLost()
 //**********************************************************************************************************************
 void MainWindow::onNewRandomGame()
 {
-   GameBoard::instance().newGame();
+   GameEngine::instance().newGame();
 }
 
 
@@ -142,7 +142,7 @@ void MainWindow::onNewRandomGame()
 //**********************************************************************************************************************
 void MainWindow::onRestartGame()
 {
-   GameBoard::instance().restartGame();
+   GameEngine::instance().restartGame();
 }
 
 
@@ -154,7 +154,7 @@ void MainWindow::onNewGameWithSeed()
    SeedDialog dlg;
    if (QDialog::Accepted != dlg.exec())
       return;
-   GameBoard::instance().newGame(dlg.getSeed());
+   GameEngine::instance().newGame(dlg.getSeed());
 }
 
 
@@ -163,6 +163,6 @@ void MainWindow::onNewGameWithSeed()
 //**********************************************************************************************************************
 void MainWindow::onActionCopyGameSeed()
 {
-  QApplication::clipboard()->setText(uint32ToHexString(GameBoard::instance().getSeed()));
+  QApplication::clipboard()->setText(uint32ToHexString(GameEngine::instance().getSeed()));
 }
 

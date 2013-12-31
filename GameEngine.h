@@ -5,8 +5,8 @@
 /// \brief Declaration of game board class
 
 
-#ifndef COLORSPREAD__GAME__BOARD__H
-#define COLORSPREAD__GAME__BOARD__H
+#ifndef COLORSPREAD__GAME__ENGINE__H
+#define COLORSPREAD__GAME__ENGINE__H
 
 
 #include <vector>
@@ -29,12 +29,12 @@ enum EColor {
 //**********************************************************************************************************************
 /// \brief Game board class
 //**********************************************************************************************************************
-class GameBoard: public QObject
+class GameEngine: public QObject
 {
    Q_OBJECT
 public: // member functions
-   static GameBoard& instance();
-   ~GameBoard(); ///< Destructor
+   static GameEngine& instance();
+   ~GameEngine(); ///< Destructor
    void newGame(quint32 seed); ///< Start a new game with the specified seed
    void newGame(); ///< Start a new (random) game
    void restartGame(); ///< Restart the current game
@@ -44,14 +44,14 @@ public: // member functions
    quint32 getSeed() const; ///< Return the seed of the game
 
 private: // member functions
-   GameBoard(GameBoard const&); ///< Disabled copy-constructor
-   GameBoard& operator=(GameBoard const&); ///< Disabled assignment operator
-   void reset(); ///< Reset the game board
+   GameEngine(GameEngine const&); ///< Disabled copy-constructor
+   GameEngine& operator=(GameEngine const&); ///< Disabled assignment operator
+   void reset(); ///< Reset the game
    void setColorAt(qint32 row, qint32 column, EColor color); ///< Set the color of a cell
    void checkForGameEnd(); ///< Check if the game has ended and emit the appropriate signal (gameWon() or gameLost())
 
 private: // data members
-   GameBoard();
+   GameEngine();
    std::vector<EColor> cells_; ///< The game board cells
    qint32 turnsLeft_; ///< The number of turns left in the game
    bool isGameFinished_; ///< Is the game finished
@@ -65,4 +65,4 @@ signals:
 };
 
 
-#endif // #ifndef COLORSPREAD__GAME__BOARD__H
+#endif // #ifndef COLORSPREAD__GAME__ENGINE__H

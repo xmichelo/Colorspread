@@ -6,7 +6,7 @@
 
 
 #include "stdafx.h"
-#include "GameBoard.h"
+#include "GameEngine.h"
 #include "Constants.h"
 #include <deque>
 #include <utility>
@@ -18,16 +18,16 @@ using namespace std;
 //**********************************************************************************************************************
 /// \return The only allowed instance of the class
 //**********************************************************************************************************************
-GameBoard& GameBoard::instance()
+GameEngine& GameEngine::instance()
 {
-   static GameBoard board;
+   static GameEngine board;
    return board;
 }
 
 //**********************************************************************************************************************
 /// \param[in] size The size of the game board
 //**********************************************************************************************************************
-GameBoard::GameBoard()
+GameEngine::GameEngine()
    : seed_(0)
 {
    this->reset();
@@ -37,7 +37,7 @@ GameBoard::GameBoard()
 //**********************************************************************************************************************
 // 
 //**********************************************************************************************************************
-GameBoard::~GameBoard()
+GameEngine::~GameEngine()
 {
 
 }
@@ -46,7 +46,7 @@ GameBoard::~GameBoard()
 //**********************************************************************************************************************
 /// \param[in] seed The seed for the new game
 //**********************************************************************************************************************
-void GameBoard::newGame(quint32 seed)
+void GameEngine::newGame(quint32 seed)
 {
    seed_ = seed;
    qsrand(seed_);
@@ -57,7 +57,7 @@ void GameBoard::newGame(quint32 seed)
 //**********************************************************************************************************************
 // 
 //**********************************************************************************************************************
-void GameBoard::newGame()
+void GameEngine::newGame()
 {
    // we do not want seed to be sequential so we also randomize it. as qrand() return a 16 bit numbers we concatenate
    // two values to get a 32 bit pseudo random value.
@@ -69,7 +69,7 @@ void GameBoard::newGame()
 //**********************************************************************************************************************
 // 
 //**********************************************************************************************************************
-void GameBoard::restartGame()
+void GameEngine::restartGame()
 {
    ///< We reinitialize the random generator to the same seed, so what have the same game as before
    qsrand(seed_); 
@@ -80,7 +80,7 @@ void GameBoard::restartGame()
 //**********************************************************************************************************************
 // 
 //**********************************************************************************************************************
-void GameBoard::reset()
+void GameEngine::reset()
 {
    turnsLeft_ = kTurnCount;
    cells_.clear();
@@ -97,7 +97,7 @@ void GameBoard::reset()
 /// \param[in] column The zero-based index of the row
 /// \return The column of the cell at the given row and column
 //**********************************************************************************************************************
-EColor GameBoard::getColorAt(qint32 row, qint32 column) const
+EColor GameEngine::getColorAt(qint32 row, qint32 column) const
 {
    Q_ASSERT((row >= 0) && (row < kBoardSize));
    Q_ASSERT((column >= 0) && (column < kBoardSize));
@@ -108,7 +108,7 @@ EColor GameBoard::getColorAt(qint32 row, qint32 column) const
 //**********************************************************************************************************************
 /// \param[in] color The color to play
 //**********************************************************************************************************************
-void GameBoard::playColor(EColor color)
+void GameEngine::playColor(EColor color)
 {
    if (isGameFinished_) return;
    EColor const oldColor(this->getColorAt(0,0));
@@ -152,7 +152,7 @@ void GameBoard::playColor(EColor color)
 /// \param[in] column The column of the cell
 /// \param[in] color The new color of the cell
 //**********************************************************************************************************************
-void GameBoard::setColorAt(qint32 row, qint32 column, EColor color)
+void GameEngine::setColorAt(qint32 row, qint32 column, EColor color)
 {
    Q_ASSERT((row >= 0) && (row < kBoardSize));
    Q_ASSERT((column >= 0) && (column < kBoardSize));
@@ -163,7 +163,7 @@ void GameBoard::setColorAt(qint32 row, qint32 column, EColor color)
 //**********************************************************************************************************************
 /// \return the number of turns left in the game
 //**********************************************************************************************************************
-qint32 GameBoard::getTurnsLeft() const
+qint32 GameEngine::getTurnsLeft() const
 {
    return turnsLeft_;
 }
@@ -172,7 +172,7 @@ qint32 GameBoard::getTurnsLeft() const
 //**********************************************************************************************************************
 // 
 //**********************************************************************************************************************
-void GameBoard::checkForGameEnd()
+void GameEngine::checkForGameEnd()
 {
    EColor const color(cells_[0]);
    bool won(true);
@@ -199,7 +199,7 @@ void GameBoard::checkForGameEnd()
 //**********************************************************************************************************************
 /// \return The seed of the game
 //**********************************************************************************************************************
-quint32 GameBoard::getSeed() const
+quint32 GameEngine::getSeed() const
 {
    return seed_;
 }

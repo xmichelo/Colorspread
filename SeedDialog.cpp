@@ -7,7 +7,7 @@
 
 #include "stdafx.h"
 #include "SeedDialog.h"
-#include "GameBoard.h"
+#include "GameEngine.h"
 #include "Utils.h"
 
 
@@ -18,8 +18,8 @@ SeedDialog::SeedDialog(QWidget* parent)
    : QDialog(parent)
 {
    ui_.setupUi(this);
-   validator = new QRegExpValidator(QRegExp("[0-9a-fA-F]{1,8}"), this);
-   ui_.seedEdit->setValidator(validator);
+   validator_ = new QRegExpValidator(QRegExp("[0-9a-fA-F]{1,8}"), this);
+   ui_.seedEdit->setValidator(validator_);
    connect(ui_.seedEdit, SIGNAL(textChanged(const QString&)), this, SLOT(onTextChanged(QString const &)));
    tryReadSeedFromClipboard();
 }
@@ -41,7 +41,7 @@ void SeedDialog::onTextChanged(QString const& text)
 {
    int pos(0);
    QString t(text);
-   ui_.okButton->setEnabled((QValidator::Acceptable == validator->validate(t, pos)));
+   ui_.okButton->setEnabled((QValidator::Acceptable == validator_->validate(t, pos)));
 }
 
 
@@ -72,6 +72,6 @@ void SeedDialog::tryReadSeedFromClipboard()
          return;
       }
    }
-   ui_.seedEdit->setText(uint32ToHexString(GameBoard::instance().getSeed()));
+   ui_.seedEdit->setText(uint32ToHexString(GameEngine::instance().getSeed()));
 }
 

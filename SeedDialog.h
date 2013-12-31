@@ -34,7 +34,7 @@ private slots:
 
 private: // data members
    Ui::SeedDialog ui_; ///< The GUI for the dialog
-   QRegExpValidator* validator; ///< The validator for the seed text field
+   QRegExpValidator* validator_; ///< The validator for the seed text field
 };
 
 
