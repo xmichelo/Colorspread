@@ -28,15 +28,18 @@ private: // member functions
    void setupStatusBar(); /// Setup the status bar
 
 private slots:
-   void onColorButton(); ///< Callback for the color buttons
-   void onGameStarted(); ///< Callback for the game started signal
-   void onTurnPlayed(); ///< Callback for the turn played signal
-   void onGameWon(); ///< Callback for the game won signal
-   void onGameLost(); ///< Callback for the game lost signal
-   void onNewRandomGame(); ///< Callback for the new random game action
-   void onNewGameWithSeed(); ///< Callback for the 'New Game With Seed' action
-   void onRestartGame(); ///< Callback for the restart game action
-   void onActionCopyGameSeed(); ///< Callback for the 'Copy Game Seed' action
+   void onColorButton(); ///< Slot for the color buttons
+   void onGameStarted(); ///< Slot for the game started signal
+   void onGameStateChanged(); ///< Slot for the turn played signal
+   void onGameWon(); ///< Slot for the game won signal
+   void onGameLost(); ///< Slot for the game lost signal
+   void onNewRandomGame(); ///< Slot for the new random game action
+   void onNewGameWithSeed(); ///< Slot for the 'New Game With Seed' action
+   void onRestartGame(); ///< Slot for the restart game action
+   void onActionCopyGameSeed(); ///< Slot for the 'Copy Game Seed' action
+   void onActionUndo(); ///< Slot for the 'Undo' action
+   void onActionRedo(); ///< Slot for the 'Redo' action
+   void updateGuiState(); ///< Slot for the GUI state update
 
 private: // data members
    Ui::MainWindowClass ui_; ///< The GUI for the window

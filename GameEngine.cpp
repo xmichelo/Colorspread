@@ -82,7 +82,8 @@ void GameEngine::reset()
 {
    turnsLeft_ = kTurnCount;
    gameBoard_.reset(seed_);
-   isGameFinished_ = false;
+   undoStack_.clear();
+   redoStack_.clear();
    emit gameStarted();
 }
 
@@ -92,9 +93,12 @@ void GameEngine::reset()
 //**********************************************************************************************************************
 void GameEngine::playColor(EColor color)
 {
-   if (isGameFinished_) return;
+   if (this->isGameFinished()) return;
+   SPGameBoard previousBoard(make_shared<GameBoard>(gameBoard_));
    gameBoard_.spreadColor(color);
    --turnsLeft_;
+   undoStack_.push_back(previousBoard);
+   redoStack_.clear();
    emit turnPlayed();
    this->checkForGameEnd();
 }
@@ -116,15 +120,11 @@ void GameEngine::checkForGameEnd()
 {
    if (gameBoard_.gameIsWon())
    {
-      isGameFinished_ = true;
       emit gameWon();
       return;
    }
    if (0 == turnsLeft_)
-   {
-      isGameFinished_ = true;
       emit gameLost();
-   }
 }
 
 
@@ -143,5 +143,64 @@ quint32 GameEngine::getSeed() const
 GameBoard const& GameEngine::getGameBoard() const
 {
    return gameBoard_;
+}
+
+
+//**********************************************************************************************************************
+/// \return true if and only if undoing is possible
+//**********************************************************************************************************************
+bool GameEngine::canUndo() const
+{
+   return undoStack_.size() > 0;
+}
+
+
+//**********************************************************************************************************************
+/// \return true if and only if redoing is possible
+//**********************************************************************************************************************
+bool GameEngine::canRedo() const
+{
+   return redoStack_.size() > 0;
+}
+
+
+//**********************************************************************************************************************
+// 
+//**********************************************************************************************************************
+void GameEngine::undo()
+{
+   Q_ASSERT(undoStack_.size() > 0);
+   if (undoStack_.size() < 1)
+      return;
+   redoStack_.push_back(make_shared<GameBoard>(gameBoard_));
+   gameBoard_ = *(undoStack_.back());
+   undoStack_.pop_back();
+   ++turnsLeft_;
+   emit didUndo();
+}
+
+
+//**********************************************************************************************************************
+// 
+//**********************************************************************************************************************
+void GameEngine::redo()
+{
+   Q_ASSERT(redoStack_.size() > 0);
+   if (redoStack_.size() < 1)
+      return;
+   undoStack_.push_back(make_shared<GameBoard>(gameBoard_));
+   gameBoard_ = *redoStack_.back();
+   redoStack_.pop_back();
+   --turnsLeft_;
+   emit didRedo();
+}
+
+
+//**********************************************************************************************************************
+/// \return true if and only if the game is finished (won or lost)
+//**********************************************************************************************************************
+bool GameEngine::isGameFinished() const
+{
+   return (gameBoard_.gameIsWon()) || (0 == turnsLeft_);
 }
 

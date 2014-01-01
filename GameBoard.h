@@ -10,6 +10,7 @@
 
 
 #include <vector>
+#include <memory>
 
 
 //**********************************************************************************************************************
@@ -47,6 +48,9 @@ public: // member functions
 private: // data members
    std::vector<EColor> cells_; ///< The board cells
 };
+
+typedef std::shared_ptr<GameBoard> SPGameBoard; ///< Type definition for shared pointer to GameBoard
+typedef std::vector<SPGameBoard> VecSPGameBoard; ///< type definition for vector of shared pointers to GameBoard
 
 
 #endif // #ifndef COLORSPREAD__GAME__BOARD__H

@@ -19,7 +19,7 @@ class GameEngine: public QObject
 {
    Q_OBJECT
 public: // member functions
-   static GameEngine& instance();
+   static GameEngine& instance(); ///< Return the only allowed instance of the class
    ~GameEngine(); ///< Destructor
    void newGame(quint32 seed); ///< Start a new game with the specified seed
    void newGame(); ///< Start a new (random) game
@@ -28,6 +28,11 @@ public: // member functions
    qint32 getTurnsLeft() const; ///< Return the number of turns left in the game
    quint32 getSeed() const; ///< Return the seed of the game
    GameBoard const& getGameBoard() const; ///< Return a constant reference to the game board
+   bool canUndo() const; ///< Test if undo is possible
+   bool canRedo() const; ///< Test if redo is possible
+   void undo();
+   void redo();
+   bool isGameFinished() const; ///< check if the game is finished
 
 private: // member functions
    GameEngine(); ///< Default constructor
@@ -39,14 +44,17 @@ private: // member functions
 private: // data members
    GameBoard gameBoard_; ///< The game board
    qint32 turnsLeft_; ///< The number of turns left in the game
-   bool isGameFinished_; ///< Is the game finished
    quint32 seed_; ///< The seed used to get the random board
+   VecSPGameBoard undoStack_; ///< The 'undo' stack
+   VecSPGameBoard redoStack_; ///< The 'redo' stack
 
 signals:
    void gameStarted();
    void turnPlayed();
    void gameWon();
    void gameLost();
+   void didUndo();
+   void didRedo();
 };
 
 

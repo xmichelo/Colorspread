@@ -26,10 +26,14 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
    this->setupStatusBar();
    GameEngine* board(&GameEngine::instance());
    connect(board, SIGNAL(gameStarted()), this, SLOT(onGameStarted()));
-   connect(board, SIGNAL(turnPlayed()), this, SLOT(onTurnPlayed()));
+   connect(board, SIGNAL(turnPlayed()), this, SLOT(onGameStateChanged()));
    connect(board, SIGNAL(gameWon()), this, SLOT(onGameWon()));
    connect(board, SIGNAL(gameLost()), this, SLOT(onGameLost()));
-   board->newGame();
+   connect(board, SIGNAL(didUndo()), this, SLOT(updateGuiState()));
+   connect(board, SIGNAL(didUndo()), this, SLOT(onGameStateChanged()));
+   connect(board, SIGNAL(didRedo()), this, SLOT(updateGuiState()));
+   connect(board, SIGNAL(didRedo()), this, SLOT(onGameStateChanged()));
+   this->onNewRandomGame();
 }
 
 
@@ -95,16 +99,18 @@ void MainWindow::onGameStarted()
    statusLabel_->setText(QString("Game Seed: %1").arg(uint32ToHexString(GameEngine::instance().getSeed())));
    ui_.turnsLeftCounterLabel->setText(QString::number(GameEngine::instance().getTurnsLeft()));
    ui_.glWidget->updateGL();
+   this->updateGuiState();
 }
 
 
 //**********************************************************************************************************************
 // 
 //**********************************************************************************************************************
-void MainWindow::onTurnPlayed()
+void MainWindow::onGameStateChanged()
 {
    ui_.turnsLeftCounterLabel->setText(QString::number(GameEngine::instance().getTurnsLeft()));
    ui_.glWidget->updateGL();
+   this->updateGuiState();
 }
 
 
@@ -164,5 +170,35 @@ void MainWindow::onNewGameWithSeed()
 void MainWindow::onActionCopyGameSeed()
 {
   QApplication::clipboard()->setText(uint32ToHexString(GameEngine::instance().getSeed()));
+}
+
+
+//**********************************************************************************************************************
+// 
+//**********************************************************************************************************************
+void MainWindow::onActionUndo()
+{
+   GameEngine::instance().undo();
+}
+
+
+//**********************************************************************************************************************
+// 
+//**********************************************************************************************************************
+void MainWindow::onActionRedo()
+{
+   GameEngine::instance().redo();
+}
+
+
+//**********************************************************************************************************************
+// 
+//**********************************************************************************************************************
+void MainWindow::updateGuiState()
+{
+   GameEngine& gameEngine(GameEngine::instance());
+   ui_.actionUndo->setEnabled(gameEngine.canUndo());
+   ui_.actionRedo->setEnabled(gameEngine.canRedo());
+   ui_.gameStatusLabel->setVisible(gameEngine.isGameFinished());
 }
 
