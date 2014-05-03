@@ -9,7 +9,6 @@
 #define COLORSPREAD__MAINWINDOW__H
 
 
-#include <QtGui/QMainWindow>
 #include "ui_MainWindow.h"
 
 
@@ -20,7 +19,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public: // member functions
-   MainWindow(QWidget *parent = 0, Qt::WFlags flags = 0); ///< Default constructor
+   MainWindow(QWidget *parent = 0, Qt::WindowFlags flags = 0); ///< Default constructor
    ~MainWindow(); ///< Destructor
 
 private: // member functions

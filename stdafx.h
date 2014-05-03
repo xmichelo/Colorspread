@@ -4,6 +4,7 @@
 ///
 /// \brief Declaration of pre-compiled headers
 
-#include <QtCore>
-#include <QtGui>
 #include <QtOpenGL>
+#include <QtWidgets>
+#include <QtGui>
+#include <QtCore>

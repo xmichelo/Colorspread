@@ -17,7 +17,7 @@
 /// \param[in] parent The parent widget of the window
 /// \param[in] flags The window creation flags
 //**********************************************************************************************************************
-MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
+MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags)
     : QMainWindow(parent, flags)
     , statusLabel_(00)
 {
