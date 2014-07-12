@@ -9,10 +9,10 @@
 #define COLORSPREAD__CONSTANTS__H
 
 
-extern qint32 kBoardSize; ///< The size of the game board (number of cells on each row and column)
-extern qint32 kTurnCount; ///< The number of turns allowed in a game
-extern QColor kColors[6]; ///< The list of colors
-extern qint32 kCellRenderSize; ///< The rendering size of cells
+extern qint32 const kBoardSize; ///< The size of the game board (number of cells on each row and column)
+extern qint32 const kTurnCount; ///< The number of turns allowed in a game
+extern std::vector<QColor> const kColors; ///< The list of colors
+extern qint32 const kCellRenderSize; ///< The rendering size of cells
 
 
 #endif // #ifndef COLORSPREAD__CONSTANTS__H
