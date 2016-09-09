@@ -8,13 +8,6 @@ _build/
 _temp/
 _doc/
 GeneratedFiles/
-settings/
-DebugG1/
 build/
-documentation/technical/*.html
-SENSOR.LOG*
-embedded/KitrisKit/Debug/
-embedded/doc/html
-embedded/QuickT2SI
 *.sdf
 *.opensdf
