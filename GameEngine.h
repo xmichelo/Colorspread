@@ -5,8 +5,8 @@
 /// \brief Declaration of game board class
 
 
-#ifndef COLORSPREAD__GAME__ENGINE__H
-#define COLORSPREAD__GAME__ENGINE__H
+#ifndef COLORSPREAD_GAME_ENGINE_H
+#define COLORSPREAD_GAME_ENGINE_H
 
 
 #include "GameBoard.h"
@@ -20,7 +20,7 @@ class GameEngine: public QObject
    Q_OBJECT
 public: // member functions
    static GameEngine& instance(); ///< Return the only allowed instance of the class
-   ~GameEngine(); ///< Destructor
+   ~GameEngine() override; ///< Destructor
    void newGame(quint32 seed); ///< Start a new game with the specified seed
    void newGame(); ///< Start a new (random) game
    void restartGame(); ///< Restart the current game
@@ -36,17 +36,19 @@ public: // member functions
 
 private: // member functions
    GameEngine(); ///< Default constructor
-   GameEngine(GameEngine const&); ///< Disabled copy-constructor
-   GameEngine& operator=(GameEngine const&); ///< Disabled assignment operator
+   GameEngine(GameEngine const&) = delete; ///< Disabled copy-constructor
+   GameEngine(GameEngine&&) = delete; ///< Disabled copy-constructor
+   GameEngine& operator=(GameEngine const&) = delete; ///< Disabled assignment operator
+   GameEngine& operator=(GameEngine&&) = delete; ///< Disabled move-assignment operator
    void reset(); ///< Reset the game
    void checkForGameEnd(); ///< Check if the game has ended and emit the appropriate signal (gameWon() or gameLost())
 
 private: // data members
-   GameBoard gameBoard_; ///< The game board
-   qint32 turnsLeft_; ///< The number of turns left in the game
-   quint32 seed_; ///< The seed used to get the random board
-   VecSPGameBoard undoStack_; ///< The 'undo' stack
-   VecSPGameBoard redoStack_; ///< The 'redo' stack
+   GameBoard gameBoard_ { 0 }; ///< The game board
+   qint32 turnsLeft_ { 0 }; ///< The number of turns left in the game
+   quint32 seed_ { 0 }; ///< The seed used to get the random board
+   VecSpGameBoard undoStack_; ///< The 'undo' stack
+   VecSpGameBoard redoStack_; ///< The 'redo' stack
 
 signals:
    void gameStarted();
@@ -58,4 +60,4 @@ signals:
 };
 
 
-#endif // #ifndef COLORSPREAD__GAME__ENGINE__H
+#endif // #ifndef COLORSPREAD_GAME_ENGINE_H

@@ -9,5 +9,6 @@ _temp/
 _doc/
 GeneratedFiles/
 build/
+.vs/
 *.sdf
 *.opensdf

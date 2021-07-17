@@ -7,22 +7,13 @@
 
 #include "stdafx.h"
 #include "GameBoard.h"
+#include "Globals.h"
 #include "Constants.h"
 #include <utility>
 #include <deque>
 
 
 using namespace std;
-
-
-//**********************************************************************************************************************
-// 
-//**********************************************************************************************************************
-GameBoard::GameBoard()
-   : cells_(kBoardSize * kBoardSize, eColor0)
-{
-
-}
 
 
 //**********************************************************************************************************************
@@ -77,10 +68,11 @@ void GameBoard::swap(GameBoard& ref)
 void GameBoard::reset(quint32 seed)
 {
    cells_.clear();
-   cells_.reserve(kBoardSize * kBoardSize);
-   qsrand(seed); 
-   for (qint32 i = 0; i < kBoardSize * kBoardSize; ++i)
-      cells_.push_back(EColor(qrand() % eColorCount));
+   cells_.reserve(constants::kBoardSize * constants::kBoardSize);
+   QRandomGenerator& rng = globals::rng();
+   rng.seed(seed); 
+   for (qint32 i = 0; i < constants::kBoardSize * constants::kBoardSize; ++i)
+      cells_.push_back(EColor(rng.bounded(qint32(EColor::ColorCount))));
 }
 
 
@@ -90,9 +82,9 @@ void GameBoard::reset(quint32 seed)
 //**********************************************************************************************************************
 EColor GameBoard::getCellColor(qint32 row, qint32 column) const
 {
-   Q_ASSERT((row >= 0) && (row < kBoardSize));
-   Q_ASSERT((column >= 0) && (column < kBoardSize));
-   return cells_[kBoardSize * row + column];
+   Q_ASSERT((row >= 0) && (row < constants::kBoardSize));
+   Q_ASSERT((column >= 0) && (column < constants::kBoardSize));
+   return cells_[constants::kBoardSize * row + column];
 }
 
 
@@ -103,9 +95,9 @@ EColor GameBoard::getCellColor(qint32 row, qint32 column) const
 //**********************************************************************************************************************
 void GameBoard::setCellColor(qint32 row, qint32 column, EColor color)
 {
-   Q_ASSERT((row >= 0) && (row < kBoardSize));
-   Q_ASSERT((column >= 0) && (column < kBoardSize));
-   cells_[kBoardSize * row + column] = color;
+   Q_ASSERT((row >= 0) && (row < constants::kBoardSize));
+   Q_ASSERT((column >= 0) && (column < constants::kBoardSize));
+   cells_[constants::kBoardSize * row + column] = color;
 }
 
 
@@ -128,7 +120,7 @@ void GameBoard::spreadColor(EColor color)
          this->setCellColor(pair.first - 1, pair.second, color);
          queue.push_back(make_pair(pair.first - 1, pair.second));
       }
-      if ((pair.first < kBoardSize - 1) && (oldColor == this->getCellColor(pair.first + 1, pair.second)))
+      if ((pair.first < constants::kBoardSize - 1) && (oldColor == this->getCellColor(pair.first + 1, pair.second)))
       {
          this->setCellColor(pair.first + 1, pair.second, color);
          queue.push_back(make_pair(pair.first + 1, pair.second));
@@ -138,7 +130,7 @@ void GameBoard::spreadColor(EColor color)
          this->setCellColor(pair.first, pair.second - 1, color);
          queue.push_back(make_pair(pair.first, pair.second - 1));
       }
-      if ((pair.second < kBoardSize - 1) && (oldColor == this->getCellColor(pair.first, pair.second + 1)))
+      if ((pair.second < constants::kBoardSize - 1) && (oldColor == this->getCellColor(pair.first, pair.second + 1)))
       {
          this->setCellColor(pair.first, pair.second + 1, color);
          queue.push_back(make_pair(pair.first, pair.second + 1));
@@ -152,7 +144,7 @@ void GameBoard::spreadColor(EColor color)
 //**********************************************************************************************************************
 bool GameBoard::gameIsWon() const
 {
-   Q_ASSERT(cells_.size() == kBoardSize * kBoardSize);
+   Q_ASSERT(qint32(cells_.size()) == constants::kBoardSize * constants::kBoardSize);
    EColor const color(cells_.front());
    for (std::vector<EColor>::const_iterator it = cells_.begin() + 1; it != cells_.end(); ++it)
       if (color != *it)

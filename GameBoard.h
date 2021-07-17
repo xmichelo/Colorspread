@@ -5,8 +5,8 @@
 /// \brief Declaration of game board class
 
 
-#ifndef COLORSPREAD__GAME__BOARD__H
-#define COLORSPREAD__GAME__BOARD__H
+#ifndef COLORSPREAD_GAME_BOARD_H
+#define COLORSPREAD_GAME_BOARD_H
 
 
 #include <vector>
@@ -16,14 +16,14 @@
 //**********************************************************************************************************************
 // \brief enumeration for colors
 //**********************************************************************************************************************
-enum EColor {
-   eColor0 = 0,
-   eColor1 = 1,
-   eColor2 = 2,
-   eColor3 = 3,
-   eColor4 = 4,
-   eColor5 = 5,
-   eColorCount = 6,
+enum class EColor {
+   Color0 = 0,
+   Color1 = 1,
+   Color2 = 2,
+   Color3 = 3,
+   Color4 = 4,
+   Color5 = 5,
+   ColorCount = 6,
 };
 
 
@@ -33,8 +33,7 @@ enum EColor {
 class GameBoard
 {
 public: // member functions
-   GameBoard(); ///< Default constructor
-   GameBoard(quint32 seed); ///< Constructor with specific seed
+   explicit GameBoard(quint32 seed); ///< Constructor with specific seed
    GameBoard(GameBoard const&); ///< Disabled copy-constructor
    ~GameBoard(); ///< Destructor
    GameBoard& operator=(GameBoard ref); ///< Disabled assignment operator
@@ -49,8 +48,8 @@ private: // data members
    std::vector<EColor> cells_; ///< The board cells
 };
 
-typedef std::shared_ptr<GameBoard> SPGameBoard; ///< Type definition for shared pointer to GameBoard
-typedef std::vector<SPGameBoard> VecSPGameBoard; ///< type definition for vector of shared pointers to GameBoard
+typedef std::shared_ptr<GameBoard> SpGameBoard; ///< Type definition for shared pointer to GameBoard
+typedef std::vector<SpGameBoard> VecSpGameBoard; ///< type definition for vector of shared pointers to GameBoard
 
 
 #endif // #ifndef COLORSPREAD__GAME__BOARD__H

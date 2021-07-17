@@ -5,8 +5,11 @@
 /// \brief Declaration of constants
 
 
-#ifndef COLORSPREAD__CONSTANTS__H
-#define COLORSPREAD__CONSTANTS__H
+#ifndef COLORSPREAD_CONSTANTS_H
+#define COLORSPREAD_CONSTANTS_H
+
+
+namespace constants {
 
 
 extern qint32 const kBoardSize; ///< The size of the game board (number of cells on each row and column)
@@ -15,4 +18,7 @@ extern std::vector<QColor> const kColors; ///< The list of colors
 extern qint32 const kCellRenderSize; ///< The rendering size of cells
 
 
-#endif // #ifndef COLORSPREAD__CONSTANTS__H
+} // namespace constants
+
+
+#endif // #ifndef COLORSPREAD_CONSTANTS_H

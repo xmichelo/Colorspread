@@ -15,47 +15,37 @@
 
 //**********************************************************************************************************************
 /// \param[in] parent The parent widget of the window
-/// \param[in] flags The window creation flags
 //**********************************************************************************************************************
-MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags)
-    : QMainWindow(parent, flags)
-    , statusLabel_(00)
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
 {
    ui_.setupUi(this);
    this->setupColorButtons();
    this->setupStatusBar();
    GameEngine* board(&GameEngine::instance());
-   connect(board, SIGNAL(gameStarted()), this, SLOT(onGameStarted()));
-   connect(board, SIGNAL(turnPlayed()), this, SLOT(onGameStateChanged()));
-   connect(board, SIGNAL(gameWon()), this, SLOT(onGameWon()));
-   connect(board, SIGNAL(gameLost()), this, SLOT(onGameLost()));
-   connect(board, SIGNAL(didUndo()), this, SLOT(updateGuiState()));
-   connect(board, SIGNAL(didUndo()), this, SLOT(onGameStateChanged()));
-   connect(board, SIGNAL(didRedo()), this, SLOT(updateGuiState()));
-   connect(board, SIGNAL(didRedo()), this, SLOT(onGameStateChanged()));
+   connect(board, &GameEngine::gameStarted, this, &MainWindow::onGameStarted);
+   connect(board, &GameEngine::turnPlayed, this, &MainWindow::onGameStateChanged);
+   connect(board, &GameEngine::gameWon, this, &MainWindow::onGameWon);
+   connect(board, &GameEngine::gameLost, this, &MainWindow::onGameLost);
+   connect(board, &GameEngine::didUndo, this, &MainWindow::updateGuiState);
+   connect(board, &GameEngine::didUndo, this, &MainWindow::onGameStateChanged);
+   connect(board, &GameEngine::didRedo, this, &MainWindow::updateGuiState);
+   connect(board, &GameEngine::didRedo, this, &MainWindow::onGameStateChanged);
    this->onNewRandomGame();
-}
-
-
-//**********************************************************************************************************************
-///
-//**********************************************************************************************************************
-MainWindow::~MainWindow()
-{
-
 }
 
 
 //**********************************************************************************************************************
 // 
 //**********************************************************************************************************************
-void MainWindow::setupColorButtons()
+void MainWindow::setupColorButtons() const
 {
-   QPushButton* buttons[eColorCount] = { ui_.color0Button, ui_.color1Button, ui_.color2Button, ui_.color3Button, 
+   qint32 const colorCount = qint32(EColor::ColorCount);
+   QPushButton* buttons[colorCount] = { ui_.color0Button, ui_.color1Button, ui_.color2Button, ui_.color3Button, 
                                          ui_.color4Button, ui_.color5Button };
-   for (int i = 0; i < eColorCount; ++i)
+   for (int i = 0; i < colorCount; ++i)
    {
-      QColor const color(kColors[i]);
+      QColor const color(constants::kColors[i]);
       buttons[i]->setStyleSheet(QString("background-color: rgb(%1, %2, %3);\nborder: 1px solid rgb(50, 50, 50);")
                                 .arg(color.red()).arg(color.green()).arg(color.blue()));
    }
@@ -75,13 +65,14 @@ void MainWindow::setupStatusBar()
 //**********************************************************************************************************************
 // 
 //**********************************************************************************************************************
-void MainWindow::onColorButton()
+void MainWindow::onColorButton() const
 {
    QPushButton* button(static_cast<QPushButton*>(this->sender()));
    if (!button) return;
-   QPushButton* buttons[eColorCount] = { ui_.color0Button, ui_.color1Button, ui_.color2Button, ui_.color3Button, 
+   qint32 const colorCount = qint32(EColor::ColorCount);
+   QPushButton* buttons[colorCount] = { ui_.color0Button, ui_.color1Button, ui_.color2Button, ui_.color3Button,
                                          ui_.color4Button, ui_.color5Button };
-   for (int i = 0; i < eColorCount; ++i)
+   for (int i = 0; i < colorCount; ++i)
       if (button == buttons[i]) 
       { 
          GameEngine::instance().playColor(EColor(i)); 
@@ -93,12 +84,12 @@ void MainWindow::onColorButton()
 //**********************************************************************************************************************
 // 
 //**********************************************************************************************************************
-void MainWindow::onGameStarted()
+void MainWindow::onGameStarted() const
 {
    ui_.gameStatusLabel->setText("");
    statusLabel_->setText(QString("Game Seed: %1").arg(uint32ToHexString(GameEngine::instance().getSeed())));
    ui_.turnsLeftCounterLabel->setText(QString::number(GameEngine::instance().getTurnsLeft()));
-   ui_.glWidget->updateGL();
+   ui_.glWidget->update();
    this->updateGuiState();
 }
 
@@ -106,10 +97,10 @@ void MainWindow::onGameStarted()
 //**********************************************************************************************************************
 // 
 //**********************************************************************************************************************
-void MainWindow::onGameStateChanged()
+void MainWindow::onGameStateChanged() const
 {
    ui_.turnsLeftCounterLabel->setText(QString::number(GameEngine::instance().getTurnsLeft()));
-   ui_.glWidget->updateGL();
+   ui_.glWidget->update();
    this->updateGuiState();
 }
 
@@ -117,7 +108,7 @@ void MainWindow::onGameStateChanged()
 //**********************************************************************************************************************
 // 
 //**********************************************************************************************************************
-void MainWindow::onGameWon()
+void MainWindow::onGameWon() const
 {
    ui_.gameStatusLabel->setStyleSheet("color: #61bc46;");
    ui_.gameStatusLabel->setText("You Win!");
@@ -127,7 +118,7 @@ void MainWindow::onGameWon()
 //**********************************************************************************************************************
 // 
 //**********************************************************************************************************************
-void MainWindow::onGameLost()
+void MainWindow::onGameLost() const
 {
    ui_.gameStatusLabel->setStyleSheet("color: #cd2c24;");
    ui_.gameStatusLabel->setText("Game Over!");
@@ -194,7 +185,7 @@ void MainWindow::onActionRedo()
 //**********************************************************************************************************************
 // 
 //**********************************************************************************************************************
-void MainWindow::updateGuiState()
+void MainWindow::updateGuiState() const
 {
    GameEngine& gameEngine(GameEngine::instance());
    ui_.actionUndo->setEnabled(gameEngine.canUndo());

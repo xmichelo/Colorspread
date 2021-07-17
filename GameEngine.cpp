@@ -7,6 +7,7 @@
 
 #include "stdafx.h"
 #include "GameEngine.h"
+#include "Globals.h"
 #include "Constants.h"
 
 
@@ -26,7 +27,6 @@ GameEngine& GameEngine::instance()
 //
 //**********************************************************************************************************************
 GameEngine::GameEngine()
-   : seed_(0)
 {
    this->reset();
 }
@@ -47,7 +47,7 @@ GameEngine::~GameEngine()
 void GameEngine::newGame(quint32 seed)
 {
    seed_ = seed;
-   qsrand(seed_);
+   globals::rng().seed(seed_);
    this->reset();
 }
 
@@ -59,8 +59,10 @@ void GameEngine::newGame()
 {
    // we do not want seed to be sequential so we also randomize it. as qrand() return a 16 bit numbers we concatenate
    // two values to get a 32 bit pseudo random value.
-   qsrand(quint32(QDateTime::currentMSecsSinceEpoch()));
-   this->newGame(quint32(qrand()) | (quint32(qrand()) << 16));
+   QRandomGenerator& rng = globals::rng();
+   seed_ = QRandomGenerator().securelySeeded().generate();
+   rng.seed(seed_);
+   this->newGame(seed_);
 }
 
 
@@ -70,7 +72,7 @@ void GameEngine::newGame()
 void GameEngine::restartGame()
 {
    ///< We reinitialize the random generator to the same seed, so what have the same game as before
-   qsrand(seed_); 
+   globals::rng().seed(seed_);
    this->reset();
 }
 
@@ -80,7 +82,7 @@ void GameEngine::restartGame()
 //**********************************************************************************************************************
 void GameEngine::reset()
 {
-   turnsLeft_ = kTurnCount;
+   turnsLeft_ = constants::kTurnCount;
    gameBoard_.reset(seed_);
    undoStack_.clear();
    redoStack_.clear();
@@ -94,7 +96,7 @@ void GameEngine::reset()
 void GameEngine::playColor(EColor color)
 {
    if (this->isGameFinished()) return;
-   SPGameBoard previousBoard(make_shared<GameBoard>(gameBoard_));
+   SpGameBoard const previousBoard(make_shared<GameBoard>(gameBoard_));
    gameBoard_.spreadColor(color);
    --turnsLeft_;
    undoStack_.push_back(previousBoard);
@@ -151,7 +153,7 @@ GameBoard const& GameEngine::getGameBoard() const
 //**********************************************************************************************************************
 bool GameEngine::canUndo() const
 {
-   return undoStack_.size() > 0;
+   return !undoStack_.empty();
 }
 
 
@@ -160,7 +162,7 @@ bool GameEngine::canUndo() const
 //**********************************************************************************************************************
 bool GameEngine::canRedo() const
 {
-   return redoStack_.size() > 0;
+   return !redoStack_.empty();
 }
 
 
@@ -169,8 +171,9 @@ bool GameEngine::canRedo() const
 //**********************************************************************************************************************
 void GameEngine::undo()
 {
-   Q_ASSERT(undoStack_.size() > 0);
-   if (undoStack_.size() < 1)
+   bool const empty = undoStack_.empty();
+   Q_ASSERT(!empty);
+   if (empty)
       return;
    redoStack_.push_back(make_shared<GameBoard>(gameBoard_));
    gameBoard_ = *(undoStack_.back());
@@ -185,8 +188,9 @@ void GameEngine::undo()
 //**********************************************************************************************************************
 void GameEngine::redo()
 {
-   Q_ASSERT(redoStack_.size() > 0);
-   if (redoStack_.size() < 1)
+   bool const empty = redoStack_.empty();
+   Q_ASSERT(!empty);
+   if (empty)
       return;
    undoStack_.push_back(make_shared<GameBoard>(gameBoard_));
    gameBoard_ = *redoStack_.back();

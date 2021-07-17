@@ -5,25 +5,28 @@
 /// \brief Implementation of OpenGL Widget
 
 
-#ifndef COLORSPREAD__GL__WIDGET__H
-#define COLORSPREAD__GL__WIDGET__H
+#ifndef COLORSPREAD_GL_WIDGET_H
+#define COLORSPREAD_GL_WIDGET_H
+
+
+#include <QOpenGLWidget>
 
 
 //**********************************************************************************************************************
 /// \brief Implementation of custom OpenGL widget
 //**********************************************************************************************************************
-class GlWidget: public QGLWidget
+class GlWidget: public QOpenGLWidget
 {
 public: // member functions
-   GlWidget(QWidget* parent); ///< Default constructor
-   ~GlWidget(); ///< Destructor
+   explicit GlWidget(QWidget* parent); ///< Default constructor
+   ~GlWidget() override = default; ///< Destructor
 
 private: // member functions
-   GlWidget(GlWidget const&); ///< Disabled copy-constructor
-   GlWidget& operator=(GlWidget const&); ///< Disabled assignment operator
-   void initializeGL(); ///< Initialize the OpenGL system
-   void paintGL();  ///< OpenGL redraw callback
-   void resizeGL(int width, int height); /// OpenGL resize callback
+   GlWidget(GlWidget const&) = delete; ///< Disabled copy-constructor
+   GlWidget& operator=(GlWidget const&) = delete; ///< Disabled assignment operator
+   void initializeGL() override; ///< Initialize the OpenGL system
+   void paintGL() override;  ///< OpenGL redraw callback
+   void resizeGL(int width, int height) override; /// OpenGL resize callback
 };
 
 

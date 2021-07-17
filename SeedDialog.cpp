@@ -18,9 +18,8 @@ SeedDialog::SeedDialog(QWidget* parent)
    : QDialog(parent)
 {
    ui_.setupUi(this);
-   validator_ = new QRegExpValidator(QRegExp("[0-9a-fA-F]{1,8}"), this);
-   ui_.seedEdit->setValidator(validator_);
-   connect(ui_.seedEdit, SIGNAL(textChanged(const QString&)), this, SLOT(onTextChanged(QString const &)));
+   ui_.seedEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9a-fA-F]{1,8}"), ui_.seedEdit));
+   connect(ui_.seedEdit, &QLineEdit::textChanged, this, &SeedDialog::onTextChanged);
    tryReadSeedFromClipboard();
 }
 
@@ -37,11 +36,11 @@ SeedDialog::~SeedDialog()
 //**********************************************************************************************************************
 // 
 //**********************************************************************************************************************
-void SeedDialog::onTextChanged(QString const& text)
+void SeedDialog::onTextChanged(QString const& text) const
 {
    int pos(0);
    QString t(text);
-   ui_.okButton->setEnabled((QValidator::Acceptable == validator_->validate(t, pos)));
+   ui_.okButton->setEnabled((QValidator::Acceptable == ui_.seedEdit->validator()->validate(t, pos)));
 }
 
 
@@ -59,12 +58,12 @@ quint32 SeedDialog::getSeed() const
 //**********************************************************************************************************************
 /// if no valid seed is in the clipboard, the value of the seed text field will be the one of the current game
 //**********************************************************************************************************************
-void SeedDialog::tryReadSeedFromClipboard()
+void SeedDialog::tryReadSeedFromClipboard() const
 {
    QClipboard const* clipboard(QApplication::clipboard());
    if (clipboard->mimeData()->hasText())
    {
-      QString str(clipboard->text());
+      QString const str(clipboard->text());
       quint32 seed;
       if (hexStringToUint32(str, seed))
       {

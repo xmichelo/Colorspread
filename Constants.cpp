@@ -9,6 +9,9 @@
 #include "Constants.h"
 
 
+namespace constants {
+
+
 qint32 const kBoardSize(12);
 qint32 const kTurnCount(22);
 qint32 const kCellRenderSize(32);
@@ -22,3 +25,4 @@ std::vector<QColor> const kColors = {
 };
 
 
+} // namespace constants

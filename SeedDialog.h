@@ -5,8 +5,8 @@
 /// \brief Declaration of the seed dialog class
 
 
-#ifndef COLORSPREAD__SEED__DIALOG__H
-#define COLORSPREAD__SEED__DIALOG__H
+#ifndef COLORSPREAD_SEED_DIALOG_H
+#define COLORSPREAD_SEED_DIALOG_H
 
 
 #include "ui_SeedDialog.h"
@@ -20,22 +20,23 @@ class SeedDialog: public QDialog
    Q_OBJECT
 
 public: // member functions
-   SeedDialog(QWidget* parent = nullptr); ///< Default constructor
-   ~SeedDialog(); ///< Destructor
+   explicit SeedDialog(QWidget* parent = nullptr); ///< Default constructor
+   ~SeedDialog() override; ///< Destructor
    quint32 getSeed() const; ///< retrieve the current value of the seed
 
 private: // member functions
-   SeedDialog(SeedDialog const&); ///< Disabled copy-constructor
-   SeedDialog& operator=(SeedDialog const&); ///< Disabled assignment operator
-   void tryReadSeedFromClipboard(); ///< check if the clipboard contains a valid seed value, and if so, set the value of the seed edit to it.
+   SeedDialog(SeedDialog const&) = delete; ///< Disabled copy-constructor
+   SeedDialog(SeedDialog&&) = delete; ///< Disabled move copy-constructor
+   SeedDialog& operator=(SeedDialog const&) = delete; ///< Disabled assignment operator
+   SeedDialog& operator=(SeedDialog&&) = delete; ///< Disabled move assignment operator
+   void tryReadSeedFromClipboard() const; ///< check if the clipboard contains a valid seed value, and if so, set the value of the seed edit to it.
 
 private slots:
-   void onTextChanged(QString const& text); ///< Call back for the text changed signal
+   void onTextChanged(QString const& text) const; ///< Call back for the text changed signal
 
 private: // data members
    Ui::SeedDialog ui_; ///< The GUI for the dialog
-   QRegExpValidator* validator_; ///< The validator for the seed text field
 };
 
 
-#endif // #ifndef COLORSPREAD__SEED__DIALOG__H
+#endif // #ifndef COLORSPREAD_SEED_DIALOG_H

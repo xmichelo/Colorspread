@@ -15,18 +15,8 @@
 /// \param[in] parent The parent widget
 //**********************************************************************************************************************
 GlWidget::GlWidget(QWidget* parent)
-   : QGLWidget(QGLFormat(QGL::AlphaChannel | QGL::DoubleBuffer | QGL::Rgba), parent)
+   : QOpenGLWidget(parent)
 {
-   this->setAutoBufferSwap(false);
-}
-
-
-//**********************************************************************************************************************
-// 
-//**********************************************************************************************************************
-GlWidget::~GlWidget()
-{
-
 }
 
 
@@ -48,10 +38,10 @@ void GlWidget::paintGL()
    glClear(GL_COLOR_BUFFER_BIT);
    glLoadIdentity();
    glBegin(GL_QUADS);
-   for (int i = 0; i < kBoardSize; ++i)
-      for (int j = 0; j < kBoardSize; ++j)
+   for (int i = 0; i < constants::kBoardSize; ++i)
+      for (int j = 0; j < constants::kBoardSize; ++j)
       {
-         QColor const color(kColors[gameBoard.getCellColor(i, j)]);
+         QColor const color(constants::kColors[qint32(gameBoard.getCellColor(i, j))]);
          glColor3f(color.redF(), color.greenF(), color.blueF());
          glVertex2i(i      , j      );
          glVertex2i((i + 1), j      );
@@ -59,7 +49,6 @@ void GlWidget::paintGL()
          glVertex2i(i      , (j + 1));
       }
    glEnd();
-   this->swapBuffers();
 }
 
 
@@ -71,6 +60,6 @@ void GlWidget::resizeGL(int width, int height)
    glViewport(0, 0, width, height);
    glMatrixMode(GL_PROJECTION);
    glLoadIdentity();
-   glOrtho(0, kBoardSize, kBoardSize, 0, -1.0, 1.0);
+   glOrtho(0, constants::kBoardSize, constants::kBoardSize, 0, -1.0, 1.0);
    glMatrixMode(GL_MODELVIEW);
 }
